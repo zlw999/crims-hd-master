@@ -1,0 +1,15 @@
+# Project exclude paths
+/crims-alarmprocess-api/target/
+/crims-alarmprocess-srv/target/
+/crims-common/target/
+/crims-config-dao/target/
+/crims-nivm-dao/target/
+/crims-nivm-device-api/target/
+/crims-nivm-log-api/target/
+/crims-nivm-sync-agent-srv/target/
+/crims-nivm-sync-srv/target/
+/crims-nivm-user-api/target/
+/crims-record-dao/target/
+/crims-sgws-api/target/
+/crims-topology-api/target/
+/crims-topology-app/target/

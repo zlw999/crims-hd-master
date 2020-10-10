@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="crims-topology-app" />
+        <module name="crims-nivm-device-api" />
+        <module name="crims-nivm-dao" />
+        <module name="crims-alarmprocess-api" />
+        <module name="crims-sgws-api" />
+        <module name="crims-common" />
+        <module name="crims-nivm-sync-agent-srv" />
+        <module name="crims-nivm-log-api" />
+        <module name="crims-config-dao" />
+        <module name="crims-nivm-user-api" />
+        <module name="crims-topology-api" />
+        <module name="crims-alarmprocess-srv" />
+        <module name="crims-nivm-sync-srv" />
+        <module name="crims-record-dao" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="crims-alarmprocess-api" options="-parameters" />
+      <module name="crims-alarmprocess-srv" options="-parameters" />
+      <module name="crims-config-dao" options="-parameters" />
+      <module name="crims-nivm-device-api" options="-parameters" />
+      <module name="crims-nivm-log-api" options="-parameters" />
+      <module name="crims-nivm-sync-agent-srv" options="-parameters" />
+      <module name="crims-nivm-sync-srv" options="-parameters" />
+      <module name="crims-nivm-user-api" options="-parameters" />
+      <module name="crims-record-dao" options="-parameters" />
+      <module name="crims-sgws-api" options="-parameters" />
+      <module name="crims-topology-api" options="-parameters" />
+    </option>
+  </component>
+</project>

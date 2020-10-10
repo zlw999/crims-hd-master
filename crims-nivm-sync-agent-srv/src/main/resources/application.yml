@@ -1,0 +1,13 @@
+server:
+  port: 9999
+
+
+
+
+Websocket:
+  server.ip: 192.168.22.196
+  server.port: 1080
+  wsClientDomainId: domain1
+  wsClientAppNodeId: 333333
+  wsDestDomainId: domain1
+  wsDestAppNodeId: 555555

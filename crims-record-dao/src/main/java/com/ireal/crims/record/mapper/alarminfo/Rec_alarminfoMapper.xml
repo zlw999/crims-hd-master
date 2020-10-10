@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ireal.crims.record.dao.alarminfo.Rec_alarminfoMapper">
+    <resultMap id="BaseResultMap" type="com.ireal.crims.record.model.alarminfo.Rec_alarminfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="appsvrid" jdbcType="VARCHAR" property="appsvrid"/>
+        <result column="NodeAid" jdbcType="VARCHAR" property="nodeaid"/>
+        <result column="NodeAName" jdbcType="VARCHAR" property="nodeaname"/>
+        <result column="nodename" jdbcType="VARCHAR" property="nodename"/>
+        <result column="deviceid" jdbcType="VARCHAR" property="deviceid"/>
+        <result column="devicename" jdbcType="VARCHAR" property="devicename"/>
+        <result column="mpid" jdbcType="VARCHAR" property="mpid"/>
+        <result column="mpname" jdbcType="VARCHAR" property="mpname"/>
+        <result column="AlarmIndex" jdbcType="VARCHAR" property="alarmindex"/>
+        <result column="AlarmType" jdbcType="VARCHAR" property="alarmtype"/>
+        <result column="AlarmLevel" jdbcType="VARCHAR" property="alarmlevel"/>
+        <result column="AlarmTime" jdbcType="TIMESTAMP" property="alarmtime"/>
+        <result column="AlarmDisTime" jdbcType="TIMESTAMP" property="alarmdistime"/>
+        <result column="AlarmValue" jdbcType="VARCHAR" property="alarmvalue"/>
+        <result column="AlarmAffirmUserid" jdbcType="VARCHAR" property="alarmaffirmuserid"/>
+        <result column="AlarmAffirmUsername" jdbcType="VARCHAR" property="alarmaffirmusername"/>
+        <result column="AlarmAffirmTime" jdbcType="TIMESTAMP" property="alarmaffirmtime"/>
+        <result column="AlarmClearUserid" jdbcType="VARCHAR" property="alarmclearuserid"/>
+        <result column="AlarmClearUsername" jdbcType="VARCHAR" property="alarmclearusername"/>
+        <result column="AlarmClearTime" jdbcType="TIMESTAMP" property="alarmcleartime"/>
+        <result column="AlarmReportUserid" jdbcType="VARCHAR" property="alarmreportuserid"/>
+        <result column="AlarmReportUsername" jdbcType="VARCHAR" property="alarmreportusername"/>
+        <result column="AlarmDsp" jdbcType="VARCHAR" property="alarmdsp"/>
+        <result column="WOrderId" jdbcType="VARCHAR" property="worderid"/>
+        <result column="GroupNodeCode" jdbcType="VARCHAR" property="groupnodecode"/>
+        <result column="ipaddress" jdbcType="VARCHAR" property="ipaddress"/>
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="changenum" jdbcType="INTEGER" property="changenum"/>
+        <result column="TimeInfo" jdbcType="BLOB" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, appsvrid, NodeAid, NodeAName, nodename, deviceid, devicename, mpid, mpname, AlarmIndex,
+    AlarmType, AlarmLevel, AlarmTime, AlarmDisTime, AlarmValue, AlarmAffirmUserid, AlarmAffirmUsername,
+    AlarmAffirmTime, AlarmClearUserid, AlarmClearUsername, AlarmClearTime, AlarmReportUserid,
+    AlarmReportUsername, AlarmDsp, WOrderId, GroupNodeCode,ipaddress,changenum,updatetime,TimeInfo
+  </sql>
+
+
+    <select id="getAlarmList" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from rec_alarminfo
+
+        <where>1=1
+
+            <if test="null != updatetime">
+                and updatetime &gt; #{updatetime} and updatetime &lt; NOW()
+            </if>
+
+            <if test="nodeName != null">
+                and nodename like concat('%',#{nodeName,jdbcType = VARCHAR},'%')
+            </if>
+            <if test="deviceName != null">
+                and (devicename like concat('%',#{deviceName,jdbcType = VARCHAR},'%')
+                or mpname like concat('%',#{deviceName,jdbcType = VARCHAR},'%'))
+            </if>
+            <if test="ipAddress != null">
+                and ipaddress like concat('%',#{ipAddress,jdbcType = VARCHAR},'%')
+            </if>
+            <if test="alarmType != null">
+                and AlarmType like concat('%',#{alarmType,jdbcType = VARCHAR},'%')
+            </if>
+            <if test="alarmLevel != null">
+                and AlarmLevel like concat('%',#{alarmLevel,jdbcType = VARCHAR},'%')
+            </if>
+            <if test="alarmtime != null">
+                and AlarmTime <![CDATA[>=]]> #{alarmtime,jdbcType = TIMESTAMP}
+            </if>
+            <if test="alarmdistime != null">
+                and AlarmDisTime <![CDATA[<=]]> #{alarmdistime,jdbcType = TIMESTAMP} and AlarmDisTime != '2020-01-01
+                00:00:00'
+            </if>
+            <if test="alarmaffirmtime != null and alarmaffirmtime == 0">
+                and (AlarmAffirmTime = '2020-01-01 00:00:00' or ISNULL(AlarmAffirmTime))
+            </if>
+            <if test="alarmaffirmtime != null and alarmaffirmtime == 1">
+                and AlarmAffirmTime != '2020-01-01 00:00:00'
+            </if>
+            <if test="isendtime != null and isendtime == 0">
+                and (AlarmDisTime = '2020-01-01 00:00:00' or ISNULL(AlarmDisTime))
+            </if>
+            <if test="isendtime != null and isendtime == 1">
+                and AlarmDisTime != '2020-01-01 00:00:00'
+            </if>
+        </where>
+
+        <choose>
+            <when test="mpNameOr != null">
+                order by mpname ${orderRule}
+            </when>
+            <when test="AlarmAffirmUseridOr != null">
+                order by AlarmAffirmUserid ${orderRule}
+            </when>
+            <when test="nodeNameOr != null">
+                order by nodename ${orderRule}
+            </when>
+            <when test="deviceNameOr != null">
+                order by devicename ${orderRule}
+            </when>
+            <when test="ipAddressOr != null">
+                order by ipaddress ${orderRule}
+            </when>
+            <when test="alarmTypeOr != null">
+                order by AlarmType ${orderRule}
+            </when>
+            <when test="alarmLevelOr != null">
+                order by AlarmLevel ${orderRule}
+            </when>
+            <when test="alarmtimeOr != null">
+                order by AlarmTime ${orderRule}
+            </when>
+            <when test="alarmdistimeOr != null">
+                order by AlarmDisTime ${orderRule}
+            </when>
+            <when test="alarmaffirmtimeOr != null">
+                order by AlarmAffirmTime ${orderRule}
+            </when>
+            <when test="updatetimeOr != null">
+                order by updatetime ${orderRule}
+            </when>
+            <otherwise>
+                order by AlarmTime desc
+            </otherwise>
+        </choose>
+
+    </select>
+
+
+    <select id="getAlarmByUpdateTime" resultType="date" parameterType="map">
+        <!-- select updatetime from rec_alarminfo WHERE
+        updatetime >= '2019-08-17 11:39:56' and updatetime < NOW() ORDER BY updatetime desc  LIMIT 1-->
+        select updatetime from rec_alarminfo where updatetime &gt; #{updatetime} and updatetime &lt; NOW()
+        order by updatetime desc limit 1
+
+    </select>
+
+    <!--//获取每个设备所属的所有未结束告警信息,取出每个设备告警等级最高级别的信息-->
+    <select id="getMaxOrNoEndAlarmInfoList" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo">
+        select  <include refid="Base_Column_List"/>
+        from rec_alarminfo as t
+        where  AlarmLevel=(select max(t1.AlarmLevel)
+        from rec_alarminfo as t1
+        where t.deviceid = t1.deviceid
+        )
+        AND AlarmDisTime='2000-01-01 01:01:01'
+        AND AlarmClearTime='2000-01-01 01:01:01'
+        order by updatetime desc
+    </select>
+
+   <!-- //根据设备id查询告警信息 -->
+    <select id="getAlarmListByDeviceId" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from rec_alarminfo
+        where deviceid = #{deviceId}
+    </select>
+
+
+   <!-- &lt;!&ndash;//获取某个设备所属的所有未结束告警信息,取出某个设备告警等级最高级别的信息&ndash;&gt;
+    <select id="getOnlyDeviceAlarmInfoByDeviceId" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo" parameterType="string">
+        select <include refid="Base_Column_List"/>
+        from rec_alarminfo as t
+        where  AlarmLevel=(select max(t1.AlarmLevel)
+        from rec_alarminfo as t1
+        where t.deviceid = t1.deviceid
+        )
+        AND AlarmDisTime='2000-01-01 01:01:01'
+        AND AlarmClearTime='2000-01-01 01:01:01'
+        AND deviceid = #{deviceId}
+        order by updatetime desc
+    </select>-->
+
+
+    <!--//获取某个设备所属的所有未结束告警信息,取出某个设备告警等级最高级别的一条信息-->
+    <select id="getOnlyOneDeviceAlarmInfoByDeviceId" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo" parameterType="string">
+        select <include refid="Base_Column_List"/>
+        from rec_alarminfo as t
+        where  AlarmLevel=(select max(t1.AlarmLevel)
+        from rec_alarminfo as t1
+        where t.deviceid = t1.deviceid
+        )
+        AND AlarmDisTime='2000-01-01 01:01:01'
+        AND AlarmClearTime='2000-01-01 01:01:01'
+        AND deviceid = #{deviceId}
+        order by updatetime desc limit 1
+    </select>
+
+
+</mapper>

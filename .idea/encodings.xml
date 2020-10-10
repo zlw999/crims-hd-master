@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-alarmprocess-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-alarmprocess-srv" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-config-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-nivm-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-nivm-device-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-nivm-log-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-nivm-sync-agent-srv" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-nivm-sync-srv" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-nivm-user-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-record-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-sgws-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-topology-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/crims-topology-app" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

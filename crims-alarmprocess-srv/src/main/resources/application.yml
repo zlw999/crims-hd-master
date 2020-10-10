@@ -1,0 +1,32 @@
+
+server:
+  port: 8888
+
+  #配置数据源
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.22.237:3306/crimsrec?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: creal
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# mybatis
+mybatis:
+  type-aliases-package: com.ireal.crims.record.model
+  mapper-locations: classpath*:com/ireal/crims/record/**/*.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+
+Websocket:
+  server.ip: 192.168.22.196
+  server.port: 1080
+  wsClientDomainId: domain1
+  wsClientAppNodeId: alarm_666
+  wsDestDomainId: domain1
+  wsDestAppNodeId: 210100A006000100
+
