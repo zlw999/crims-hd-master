@@ -110,7 +110,10 @@ public class AlarmSubscriber {
             }
 
         }
+
+        System.out.println("......................");
         return notifyAlarmList;
+
     }
 
 }
