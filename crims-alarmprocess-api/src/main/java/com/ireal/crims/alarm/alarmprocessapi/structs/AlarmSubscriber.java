@@ -110,10 +110,7 @@ public class AlarmSubscriber {
             }
 
         }
-
-
         return notifyAlarmList;
-
     }
 
 }
