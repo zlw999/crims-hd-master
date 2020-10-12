@@ -22,8 +22,6 @@ public class AlarmProcessInfoVO implements Serializable {
     private  String cmd;
     @JSONField(ordinal=4)
     private String result;
-
-
   /*@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
   @JsonFormat(
           pattern = "yyyy-MM-dd HH:mm:ss",
@@ -40,6 +38,43 @@ public class AlarmProcessInfoVO implements Serializable {
     @JSONField(ordinal=5)
    private List<AlarmInfo> alarmList ;
 
-    
+    public String getUserid() {
+        return userid;
+    }
 
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCmd() {
+        return cmd;
+    }
+
+    public void setCmd(String cmd) {
+        this.cmd = cmd;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public List<AlarmInfo> getAlarmList() {
+        return alarmList;
+    }
+
+    public void setAlarmList(List<AlarmInfo> alarmList) {
+        this.alarmList = alarmList;
+    }
 }
