@@ -14,7 +14,9 @@ public class Protocol_AlarmProcessInfo {
     private String type;
 
     @JSONField(ordinal=4)
+
     private String result;
+
     @JSONField(ordinal=5)
     private AlarmProcessInfo params = null;
 
