@@ -60,9 +60,10 @@ public class DeviceStatusManager {
             String alarmLevel = recAlarmInfo.getAlarmLevel();
             Date alarmDisTime = recAlarmInfo.getAlarmDisTime();
             Date alarmTime = recAlarmInfo.getAlarmTime();
+
             //获取到数据库每个设备最高等级的未结束告警信息
             List<Rec_alarminfo> alarmInfoList = DataCache.getInstance().getAlarminfoMapper().getMaxOrNoEndAlarmInfoList();
-            
+
             //加载到缓存stateMap当中
             for (int j = 0; j < alarmInfoList.size(); j++) {
                 Rec_alarminfo rec_alarminfo = alarmInfoList.get(j);
@@ -72,7 +73,6 @@ public class DeviceStatusManager {
                 deviceStateInfo.setId(deviceid1);
                 deviceStateInfo.setFaultTime(rec_alarminfo.getAlarmdistime());
                 deviceStateInfo.setFaultLevel(rec_alarminfo.getAlarmlevel());
-
                 //将数据库的告警信息同步到缓存中
                 this.stateMap.put(deviceid1, deviceStateInfo);
             }
@@ -85,7 +85,7 @@ public class DeviceStatusManager {
                 if (null == deviceStateInfo) {
                     //如果告警结束，就直接，重新循环
                     if (alarmDisTime.getTime() != deviceStateInfo.getFaultTime().getTime()) {
-                        
+
 
                     } else {
                         //如果是未结束告警，创建一个对象
@@ -105,6 +105,7 @@ public class DeviceStatusManager {
                         deviceStateInfo.setFaultLevel(rec_alarminfo.getAlarmlevel());
                         deviceStateInfo.setFaultTime(rec_alarminfo.getAlarmtime());
                     } else {
+
                         //如果是未结束告警，告警级别比缓存中高时 ，
                         if (Integer.valueOf(deviceStateInfo.getFaultLevel()) < Integer.valueOf(alarmLevel)) {
                             //把等级状态更新，时间更新
@@ -119,9 +120,21 @@ public class DeviceStatusManager {
                 DeviceStateInfo deviceStateInfo = new DeviceStateInfo();
                 deviceStateInfo.setId(deviceid);
                 deviceStateInfo.setFaultLevel(alarmLevel);
-            //    deviceStateInfo.setFaultTime(recAlarmInfo.getAlarmTime());
+                // deviceStateInfo.setFaultTime(recAlarmInfo.getAlarmTime());
                 stateMap.put(deviceid, deviceStateInfo);
             }
         }
     }
+
+  /*  private static List<Rec_alarminfo> alarmComparable(List<Rec_alarminfo> list) {
+
+        List<Rec_alarminfo> listTemp = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+
+            if (!listTemp.contains(list.get(i))) {
+                listTemp.add(list.get(i));
+            }
+        }
+          return  listTemp;
+    }*/
 }
