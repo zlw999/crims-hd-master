@@ -143,19 +143,20 @@
 
     <!--//获取每个设备所属的所有未结束告警信息,取出每个设备告警等级最高级别的信息-->
     <select id="getMaxOrNoEndAlarmInfoList" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo">
-        select  <include refid="Base_Column_List"/>
-        from rec_alarminfo as t
-        where  AlarmLevel=(select max(t1.AlarmLevel)
+        select
+        <include refid="Base_Column_List"/>
+        from(select * from rec_alarminfo having 1 order by updatetime desc) as t
+        where AlarmLevel=(select max(t1.AlarmLevel)
         from rec_alarminfo as t1
         where t.deviceid = t1.deviceid
         )
         AND AlarmDisTime='2000-01-01 01:01:01'
         AND AlarmClearTime='2000-01-01 01:01:01'
-        group by deviceid
-        order by updatetime desc
+        group by t.deviceid
+        ORDER BY updatetime DESC
     </select>
 
-   <!-- //根据设备id查询告警信息 -->
+    <!-- //根据设备id查询告警信息 -->
     <select id="getAlarmListByDeviceId" resultMap="BaseResultMap" parameterType="string">
         select
         <include refid="Base_Column_List"/>
@@ -164,26 +165,28 @@
     </select>
 
 
-   <!-- &lt;!&ndash;//获取某个设备所属的所有未结束告警信息,取出某个设备告警等级最高级别的信息&ndash;&gt;
-    <select id="getOnlyDeviceAlarmInfoByDeviceId" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo" parameterType="string">
-        select <include refid="Base_Column_List"/>
-        from rec_alarminfo as t
-        where  AlarmLevel=(select max(t1.AlarmLevel)
-        from rec_alarminfo as t1
-        where t.deviceid = t1.deviceid
-        )
-        AND AlarmDisTime='2000-01-01 01:01:01'
-        AND AlarmClearTime='2000-01-01 01:01:01'
-        AND deviceid = #{deviceId}
-        order by updatetime desc
-    </select>-->
+    <!-- &lt;!&ndash;//获取某个设备所属的所有未结束告警信息,取出某个设备告警等级最高级别的信息&ndash;&gt;
+     <select id="getOnlyDeviceAlarmInfoByDeviceId" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo" parameterType="string">
+         select <include refid="Base_Column_List"/>
+         from rec_alarminfo as t
+         where  AlarmLevel=(select max(t1.AlarmLevel)
+         from rec_alarminfo as t1
+         where t.deviceid = t1.deviceid
+         )
+         AND AlarmDisTime='2000-01-01 01:01:01'
+         AND AlarmClearTime='2000-01-01 01:01:01'
+         AND deviceid = #{deviceId}
+         order by updatetime desc
+     </select>-->
 
 
     <!--//获取某个设备所属的所有未结束告警信息,取出某个设备告警等级最高级别的一条信息-->
-    <select id="getOnlyOneDeviceAlarmInfoByDeviceId" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo" parameterType="string">
-        select <include refid="Base_Column_List"/>
+    <select id="getOnlyOneDeviceAlarmInfoByDeviceId" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo"
+            parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
         from rec_alarminfo as t
-        where  AlarmLevel=(select max(t1.AlarmLevel)
+        where AlarmLevel=(select max(t1.AlarmLevel)
         from rec_alarminfo as t1
         where t.deviceid = t1.deviceid
         )
