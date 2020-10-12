@@ -15,6 +15,38 @@ public class AlarmSubscriber {
     private String domainid;    // 订阅应用域编号  SgAppHeader.srcAddr.domainId
     private String subscribeid; //  订阅者(登录用户)编号
 
+    public String getNodeid() {
+        return nodeid;
+    }
+
+    public void setNodeid(String nodeid) {
+        this.nodeid = nodeid;
+    }
+
+    public String getDomainid() {
+        return domainid;
+    }
+
+    public void setDomainid(String domainid) {
+        this.domainid = domainid;
+    }
+
+    public String getSubscribeid() {
+        return subscribeid;
+    }
+
+    public void setSubscribeid(String subscribeid) {
+        this.subscribeid = subscribeid;
+    }
+
+    public ConcurrentHashMap<AlarmKey, SubscribeInfo> getMapSubscribe() {
+        return mapSubscribe;
+    }
+
+    public void setMapSubscribe(ConcurrentHashMap<AlarmKey, SubscribeInfo> mapSubscribe) {
+        this.mapSubscribe = mapSubscribe;
+    }
+
     private ConcurrentHashMap<AlarmKey, SubscribeInfo> mapSubscribe = new ConcurrentHashMap<>();
 
     //添加订阅者
