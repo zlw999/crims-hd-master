@@ -25,4 +25,43 @@ public class DeviceStateInfo {
     private Date faultTime = DateUtil.getDefaultTime();
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public NetConnectStateEnum getConnState() {
+        return connState;
+    }
+
+    public void setConnState(NetConnectStateEnum connState) {
+        this.connState = connState;
+    }
+
+    public Date getStateTime() {
+        return stateTime;
+    }
+
+    public void setStateTime(Date stateTime) {
+        this.stateTime = stateTime;
+    }
+
+    public String getFaultLevel() {
+        return faultLevel;
+    }
+
+    public void setFaultLevel(String faultLevel) {
+        this.faultLevel = faultLevel;
+    }
+
+    public Date getFaultTime() {
+        return faultTime;
+    }
+
+    public void setFaultTime(Date faultTime) {
+        this.faultTime = faultTime;
+    }
 }

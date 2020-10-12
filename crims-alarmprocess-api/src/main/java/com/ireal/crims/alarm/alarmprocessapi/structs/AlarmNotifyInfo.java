@@ -11,4 +11,21 @@ import java.util.List;
 public class AlarmNotifyInfo {
     private String srcNodeId;   //告警源编号(告警分析服务应用编号)
     private List<RecAlarmInfo> alarmList = new ArrayList<RecAlarmInfo>();
+
+
+    public String getSrcNodeId() {
+        return srcNodeId;
+    }
+
+    public void setSrcNodeId(String srcNodeId) {
+        this.srcNodeId = srcNodeId;
+    }
+
+    public List<RecAlarmInfo> getAlarmList() {
+        return alarmList;
+    }
+
+    public void setAlarmList(List<RecAlarmInfo> alarmList) {
+        this.alarmList = alarmList;
+    }
 }
