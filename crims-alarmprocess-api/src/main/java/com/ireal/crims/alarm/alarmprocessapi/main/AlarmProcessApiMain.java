@@ -34,7 +34,7 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     public boolean Init() {
 
         DeviceStatusManager.getInstance().Init();
-      
+
         return true;
     }
 
@@ -79,13 +79,18 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     }
 
     @Override
+    public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
+        return 0;
+    }
+
+    @Override
     public int OnAlarmNotify(int sequenceNo, int appType, ErrorCodeEnum result, AlarmNotifyInfo alarmNotifyInfo) {
 
 
         return NotifyManager.getInstance().OnAlarmNotify(sequenceNo,appType,result,alarmNotifyInfo);
     }
 
-    
+
 
     @Override
     public boolean setCtrlCB(AlarmProcessCallbackInterface ctrlCB) {

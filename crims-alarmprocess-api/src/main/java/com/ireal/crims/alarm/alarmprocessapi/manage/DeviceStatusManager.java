@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 
 //设备状态管理类
@@ -61,6 +62,7 @@ public class DeviceStatusManager {
             Date alarmTime = recAlarmInfo.getAlarmTime();
             //获取到数据库每个设备最高等级的未结束告警信息
             List<Rec_alarminfo> alarmInfoList = DataCache.getInstance().getAlarminfoMapper().getMaxOrNoEndAlarmInfoList();
+            
             //加载到缓存stateMap当中
             for (int j = 0; j < alarmInfoList.size(); j++) {
                 Rec_alarminfo rec_alarminfo = alarmInfoList.get(j);
@@ -71,9 +73,10 @@ public class DeviceStatusManager {
                 deviceStateInfo.setFaultTime(rec_alarminfo.getAlarmdistime());
                 deviceStateInfo.setFaultLevel(rec_alarminfo.getAlarmlevel());
 
-                   //将数据库的告警信息同步到缓存中
+                //将数据库的告警信息同步到缓存中
                 this.stateMap.put(deviceid1, deviceStateInfo);
             }
+
             //如果缓存中存在该设备 (传进来的告警通知信息与缓存staeMap对比)
             if (this.stateMap.containsKey(deviceid)) {
                 //获取该设备状态对象
@@ -116,8 +119,8 @@ public class DeviceStatusManager {
                 DeviceStateInfo deviceStateInfo = new DeviceStateInfo();
                 deviceStateInfo.setId(deviceid);
                 deviceStateInfo.setFaultLevel(alarmLevel);
+            //    deviceStateInfo.setFaultTime(recAlarmInfo.getAlarmTime());
                 stateMap.put(deviceid, deviceStateInfo);
-
             }
         }
     }
