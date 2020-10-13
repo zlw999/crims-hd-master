@@ -17,6 +17,7 @@ public class NotifyManager extends Thread {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
 
+
     private static class SingletonHolder {
         public static NotifyManager instance = new NotifyManager();
     }
@@ -66,4 +67,13 @@ public class NotifyManager extends Thread {
         return 0;
 
     }
+
+
+    public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
+
+
+        return 0;
+
+    }
+
 }

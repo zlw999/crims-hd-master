@@ -141,7 +141,7 @@
 
     </select>
 
-    <!--//获取每个设备所属的所有未结束告警信息,取出每个设备告警等级最高级别的信息-->
+    <!--//获取每个设备所属的所有未结束告警信息,取出每个设备告警等级最高级别的相对应的一条告警信息-->
     <select id="getMaxOrNoEndAlarmInfoList" resultType="com.ireal.crims.record.model.alarminfo.Rec_alarminfo">
         select
         <include refid="Base_Column_List"/>
