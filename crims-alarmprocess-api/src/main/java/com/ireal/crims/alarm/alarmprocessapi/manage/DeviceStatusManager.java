@@ -1,17 +1,15 @@
 package com.ireal.crims.alarm.alarmprocessapi.manage;
 
-import com.alibaba.fastjson.JSON;
 import com.ireal.crims.alarm.alarmprocessapi.container.DataCache;
 import com.ireal.crims.alarm.alarmprocessapi.structs.*;
+import com.ireal.crims.common.enums.ErrorCodeEnum;
 import com.ireal.crims.record.model.alarminfo.Rec_alarminfo;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 
 //设备状态管理类
@@ -19,6 +17,8 @@ public class DeviceStatusManager {
 
 
     public Logger logger = LoggerFactory.getLogger(getClass());
+
+
 
     private static class SingletonHolder {
         public static DeviceStatusManager instance = new DeviceStatusManager();
@@ -125,16 +125,4 @@ public class DeviceStatusManager {
             }
         }
     }
-
-  /*  private static List<Rec_alarminfo> alarmComparable(List<Rec_alarminfo> list) {
-
-        List<Rec_alarminfo> listTemp = new ArrayList();
-        for (int i = 0; i < list.size(); i++) {
-
-            if (!listTemp.contains(list.get(i))) {
-                listTemp.add(list.get(i));
-            }
-        }
-          return  listTemp;
-    }*/
 }
