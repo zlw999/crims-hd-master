@@ -81,7 +81,7 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     @Override
     public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
 
-        return  NotifyManager.getInstance().OnAlarmNotifyResponse(sequenceNo,result);
+        return  0;
     }
 
     @Override
