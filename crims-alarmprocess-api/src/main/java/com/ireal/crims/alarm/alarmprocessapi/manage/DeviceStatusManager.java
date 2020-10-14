@@ -1,5 +1,6 @@
 package com.ireal.crims.alarm.alarmprocessapi.manage;
 
+import com.alibaba.druid.sql.visitor.functions.If;
 import com.ireal.crims.alarm.alarmprocessapi.container.DataCache;
 import com.ireal.crims.alarm.alarmprocessapi.structs.*;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
@@ -17,9 +18,7 @@ public class DeviceStatusManager {
 
 
     public Logger logger = LoggerFactory.getLogger(getClass());
-
-
-
+    
     private static class SingletonHolder {
         public static DeviceStatusManager instance = new DeviceStatusManager();
     }
@@ -125,4 +124,21 @@ public class DeviceStatusManager {
             }
         }
     }
+
+    public List<RecAlarmInfo> getSubscriberAlarmInfo(AlarmSubscriber alarmSubscriber){
+        Map<String, DeviceStateInfo> stateMap = this.stateMap;
+        List<RecAlarmInfo> recAlarminfos = new ArrayList<>();
+        if(stateMap != null && !stateMap.isEmpty()){
+            for (Map.Entry<String, DeviceStateInfo> entry : stateMap.entrySet()) {
+                RecAlarmInfo recAlarmInfo = new RecAlarmInfo();
+                recAlarmInfo.setDeviceid(entry.getValue().getId());
+                recAlarmInfo.setAlarmLevel(entry.getValue().getFaultLevel());
+                recAlarminfos.add(recAlarmInfo);
+            }
+        }
+
+        return recAlarminfos;
+    }
+
+
 }

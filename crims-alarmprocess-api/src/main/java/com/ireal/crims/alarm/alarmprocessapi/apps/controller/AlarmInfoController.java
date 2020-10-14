@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ireal.crims.alarm.alarmprocessapi.apps.service.Rec_alarminfoService;
 import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmProcessManager;
 import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmSubscribeManager;
-import com.ireal.crims.alarm.alarmprocessapi.manage.NotifyManager;
+import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmNotifyManager;
 import com.ireal.crims.alarm.alarmprocessapi.structs.*;
 import com.ireal.crims.alarm.alarmprocessapi.vo.AlarmProcessInfoVO;
 import com.ireal.crims.common.enums.AlarmProcessCmdEnum;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.List;
 
 
 @RestController
@@ -183,7 +182,7 @@ public class AlarmInfoController {
        AlarmSubscribeManager.getInstance().OnAlarmSubscribe(0, 0, null, alarmSubscribeRequestInfo);
 
 
-      NotifyManager.getInstance().OnAlarmNotify(0, 0, null, notifyInfo);
+      AlarmNotifyManager.getInstance().OnAlarmNotify(0, 0, null, notifyInfo);
 
 
       return null;

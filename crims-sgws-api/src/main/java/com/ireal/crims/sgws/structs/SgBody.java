@@ -123,19 +123,19 @@ public class SgBody {
 	    	buffer.setBytes(index, EndianUtil.short2LittleEndianBytes(this.appHeader.getCurrentPacketNo()));
 	    	index += 2;
 
-			byte[] btSrcDomainId = TypeConvert.StringToByteArray(this.appHeader.getSrcAddr().getDomainId(), SgAppHeader.Protocol_CharsetName_GBK);
+			byte[] btSrcDomainId = TypeConvert.StringToByteArray(this.appHeader.getSrcAddr().getDomainId(), SgAppHeader.Protocol_CharsetName_UTF8);
 			buffer.setBytes(index, btSrcDomainId, 0, btSrcDomainId.length);
 			index += 32;
 
-			byte[] btSrcAppNodeId = TypeConvert.StringToByteArray(this.appHeader.getSrcAddr().getAppNodeId(), SgAppHeader.Protocol_CharsetName_GBK);
+			byte[] btSrcAppNodeId = TypeConvert.StringToByteArray(this.appHeader.getSrcAddr().getAppNodeId(), SgAppHeader.Protocol_CharsetName_UTF8);
 			buffer.setBytes(index, btSrcAppNodeId, 0, btSrcAppNodeId.length);
 			index += 32;
 
-			byte[] btDestDomainId = TypeConvert.StringToByteArray(this.appHeader.getDestAddr().getDomainId(), SgAppHeader.Protocol_CharsetName_GBK);
+			byte[] btDestDomainId = TypeConvert.StringToByteArray(this.appHeader.getDestAddr().getDomainId(), SgAppHeader.Protocol_CharsetName_UTF8);
 			buffer.setBytes(index, btDestDomainId, 0, btDestDomainId.length);
 			index += 32;
 
-			byte[] btDestAppNodeId = TypeConvert.StringToByteArray(this.appHeader.getDestAddr().getAppNodeId(), SgAppHeader.Protocol_CharsetName_GBK);
+			byte[] btDestAppNodeId = TypeConvert.StringToByteArray(this.appHeader.getDestAddr().getAppNodeId(), SgAppHeader.Protocol_CharsetName_UTF8);
 			buffer.setBytes(index, btDestAppNodeId, 0, btDestAppNodeId.length);
 			index += 32;
 			///////////////////////////////////////////////////////////////
@@ -229,19 +229,19 @@ public class SgBody {
         appHeader.setCurrentPacketNo(currPkt); //(short)TypeConvert.ByteArrayToLong(msg, nPos, 2));
         nPos += 2;        
         
-        appHeader.getSrcAddr().setAppNodeId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_Unicode));
+        appHeader.getSrcAddr().setDomainId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_UTF8));
         nPos += 32;
         
-        appHeader.getSrcAddr().setDomainId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_Unicode));
+        appHeader.getSrcAddr().setAppNodeId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_UTF8));
         nPos += 32;    
   
-        appHeader.getDestAddr().setAppNodeId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_Unicode));
+        appHeader.getDestAddr().setDomainId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_UTF8));
         nPos += 32;
         
-        appHeader.getDestAddr().setDomainId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_Unicode));
+        appHeader.getDestAddr().setAppNodeId(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_UTF8));
         nPos += 32;
         
-        appHeader.setReqName(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_Unicode));
+        appHeader.setReqName(UtilFun.ByteArrayToString(msg, nPos, 32, SgAppHeader.Protocol_CharsetName_GBK));
         nPos += 32;
         
         int reqNo = ByteBuffer.wrap(msg, nPos, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
@@ -259,7 +259,7 @@ public class SgBody {
         appHeader.setAdditionalDestCount(additionalDestCount);
         nPos += 2;
         
-        appHeader.setReserved(UtilFun.ByteArrayToString(msg, nPos, 128, SgAppHeader.Protocol_CharsetName_Unicode));
+        appHeader.setReserved(UtilFun.ByteArrayToString(msg, nPos, 128, SgAppHeader.Protocol_CharsetName_GBK));
         nPos += 128;
 
 		int bodyLength = ByteBuffer.wrap(msg, nPos, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
@@ -271,7 +271,7 @@ public class SgBody {
 			return false;
 		}
 
-        String sMsgBody = UtilFun.ByteArrayToString(msg, nPos, nMsgLen, SgAppHeader.Protocol_CharsetName_UTF8);
+        String sMsgBody = UtilFun.ByteArrayToString(msg, nPos, nMsgLen, SgAppHeader.Protocol_CharsetName_GBK);
 		return true;
 	}
 

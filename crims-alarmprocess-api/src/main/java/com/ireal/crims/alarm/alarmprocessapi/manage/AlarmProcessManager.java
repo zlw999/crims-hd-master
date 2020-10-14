@@ -27,6 +27,7 @@ public class AlarmProcessManager  {
     }
 
     private AlarmProcessManager() {
+
     }
 
     private ConcurrentMap<Integer, AlarmProcessResponseInfo> alarmProcessMap = new ConcurrentHashMap<Integer, AlarmProcessResponseInfo>();

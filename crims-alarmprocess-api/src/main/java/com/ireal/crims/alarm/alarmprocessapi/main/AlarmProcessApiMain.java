@@ -1,16 +1,9 @@
 package com.ireal.crims.alarm.alarmprocessapi.main;
 
-import com.ireal.crims.alarm.alarmprocessapi.container.DataCache;
 import com.ireal.crims.alarm.alarmprocessapi.interfaces.AlarmProcessCallbackInterface;
 import com.ireal.crims.alarm.alarmprocessapi.interfaces.AlarmProcessInterface;
-import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmProcessManager;
-import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmSubscribeManager;
-import com.ireal.crims.alarm.alarmprocessapi.manage.DeviceStatusManager;
-import com.ireal.crims.alarm.alarmprocessapi.manage.NotifyManager;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmNotifyInfo;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmProcessInfo;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmSubscribeRequestInfo;
-import com.ireal.crims.alarm.alarmprocessapi.structs.RecAlarmInfo;
+import com.ireal.crims.alarm.alarmprocessapi.manage.*;
+import com.ireal.crims.alarm.alarmprocessapi.structs.*;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +39,8 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     @Override
     public boolean OnStart() {
 
-       NotifyManager.getInstance().start();
-
+       AlarmNotifyManager.getInstance().start();
+       AlarmSubscribeManager.getInstance().start();
         return true;
     }
 
@@ -75,8 +68,28 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
 
         return AlarmSubscribeManager.getInstance().OnAlarmSubscribe(sequenceNo,appType,result,alarmSubscribeRequestInfo);
 
-
     }
+
+
+    @Override
+    public int OnAlarmNotify(int sequenceNo, int appType, ErrorCodeEnum result, AlarmNotifyInfo alarmNotifyInfo) {
+
+
+        return AlarmNotifyManager.getInstance().OnAlarmNotify(sequenceNo,appType,result,alarmNotifyInfo);
+    }
+
+
+    @Override
+    public int onDeviceStateSubscriber(int sequenceNo, int appType, ErrorCodeEnum result, DeviceSubscriberRequestInfo deviceSubscriberRequestInfo) {
+
+        return DeviceSubscriberManager.getInstance().onDeviceStateSubscriber(sequenceNo,appType,result, deviceSubscriberRequestInfo);
+    }
+
+    @Override
+    public int onDeviceStateNotify(int sequenceNo, int appType, ErrorCodeEnum result, DeviceStateNotifyInfo deviceStateNotifyInfo) {
+        return DeviceNotifyManager.getInstance().onDeviceStateNotify(sequenceNo,appType,result, deviceStateNotifyInfo);
+    }
+
 
     @Override
     public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
@@ -84,12 +97,6 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
         return  0;
     }
 
-    @Override
-    public int OnAlarmNotify(int sequenceNo, int appType, ErrorCodeEnum result, AlarmNotifyInfo alarmNotifyInfo) {
-
-
-        return NotifyManager.getInstance().OnAlarmNotify(sequenceNo,appType,result,alarmNotifyInfo);
-    }
 
 
 

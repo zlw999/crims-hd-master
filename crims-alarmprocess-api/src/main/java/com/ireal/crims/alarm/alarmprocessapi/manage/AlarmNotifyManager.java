@@ -13,27 +13,27 @@ import java.util.concurrent.LinkedBlockingDeque;
  * <p>
  * 告警通知管理类线程
  */
-public class NotifyManager extends Thread {
+public class AlarmNotifyManager extends Thread {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
 
 
     private static class SingletonHolder {
-        public static NotifyManager instance = new NotifyManager();
+        public static AlarmNotifyManager instance = new AlarmNotifyManager();
     }
 
-    public static NotifyManager getInstance() {
-        return NotifyManager.SingletonHolder.instance;
+    public static AlarmNotifyManager getInstance() {
+        return AlarmNotifyManager.SingletonHolder.instance;
     }
 
-    private NotifyManager() {
+    private AlarmNotifyManager() {
     }
 
 
     private boolean isRunning = true;
 
 
-    private LinkedBlockingDeque<AlarmNotifyInfo> alarmNotifyDeque = new LinkedBlockingDeque<>();
+    public LinkedBlockingDeque<AlarmNotifyInfo> alarmNotifyDeque = new LinkedBlockingDeque<>();
 
 
     @Override
@@ -69,11 +69,11 @@ public class NotifyManager extends Thread {
     }
 
 
-    public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
+   /* public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
 
 
         return 0;
 
-    }
+    }*/
 
 }

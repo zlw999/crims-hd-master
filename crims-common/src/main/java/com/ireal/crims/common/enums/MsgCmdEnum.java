@@ -4,6 +4,9 @@ public enum MsgCmdEnum {
     AlarmNotify(0x03040201, "告警通知"),
     AlarmProcess(0x03040202, "告警处理"),
     AlarmSubscribe(0x03040203, "告警订阅"),
+    DeviceStatusSubscribe(0x03040401,"设备状态订阅"),
+    DeviceStatusNotify(0x03040402,"设备状态通知"),
+
     NivmRoleInfoSync(0x03040101, "角色信息同步"),
     NivmUserInfoSync(0x03040102, "用户信息同步"),
     NivmUserRightSync(0x03040103, "用户权限同步"),

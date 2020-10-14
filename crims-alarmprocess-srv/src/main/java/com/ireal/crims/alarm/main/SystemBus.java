@@ -1,15 +1,9 @@
 package com.ireal.crims.alarm.main;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.ireal.crims.alarm.alarmprocessapi.interfaces.AlarmProcessCallbackInterface;
 import com.ireal.crims.alarm.alarmprocessapi.main.AlarmProcessApiMain;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmNotifyInfo;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmProcessInfo;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmSubscribeRequestInfo;
-import com.ireal.crims.alarm.alarmprocessapi.structs.RecAlarmInfo;
-import com.ireal.crims.alarm.container.DataCache;
+import com.ireal.crims.alarm.alarmprocessapi.structs.*;
 import com.ireal.crims.alarm.structs.Protocol_AlarmProcessInfo;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import com.ireal.crims.common.enums.MsgCmdEnum;
@@ -20,6 +14,7 @@ import com.ireal.crims.sgws.main.SgwsClientMain;
 import com.ireal.crims.sgws.structs.SgAppHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.servlet.filter.ApplicationContextHeaderFilter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -85,13 +80,47 @@ public class SystemBus implements SgwsCallbackInterface,
             //==================================================================================
             case AlarmSubscribe:    // 告警订阅
             {
-                AlarmSubscribeRequestInfo alarmSubscribeRequestInfo = JSON.parseObject(appData, AlarmSubscribeRequestInfo.class);
-                if (null == alarmSubscribeRequestInfo) {
+                Protocol_AlarmSubscribeRequestInfo pro_alarmSubscribeRequestInfo = JSON.parseObject(appData, Protocol_AlarmSubscribeRequestInfo.class);
+                if (null == pro_alarmSubscribeRequestInfo) {
                     return false;
                 }
                 ErrorCodeEnum result = ErrorCodeEnum.SUCCESS; // protocolAlarmProcessInfo.getResult();
 
+                AlarmSubscribeRequestInfo alarmSubscribeRequestInfo = new AlarmSubscribeRequestInfo();
+                alarmSubscribeRequestInfo.setNodeid(sgAppHeader.getDestAddr().getAppNodeId());
+                alarmSubscribeRequestInfo.setDomainid(sgAppHeader.getDestAddr().getDomainId());
+                alarmSubscribeRequestInfo.setSubscribeid(pro_alarmSubscribeRequestInfo.getParams().getSubscriberid());
+
+
                 AlarmProcessApiMain.getInstance().OnAlarmSubscribe(sgAppHeader.getSequenceNo(), sgAppHeader.getAppType(), result, alarmSubscribeRequestInfo);
+            }
+            break;
+            case DeviceStatusSubscribe:   //设备状态订阅
+            {
+
+                DeviceSubscriberRequestInfo devSubRequestInfo = JSON.parseObject(appData, DeviceSubscriberRequestInfo.class);
+
+                if(null == devSubRequestInfo){
+                    return  false;
+                }
+                ErrorCodeEnum result = ErrorCodeEnum.SUCCESS;
+
+                AlarmProcessApiMain.getInstance().onDeviceStateSubscriber(sgAppHeader.getSequenceNo(),sgAppHeader.getAppType(),result,devSubRequestInfo);
+            }
+            break;
+
+            case DeviceStatusNotify: //设备状态通知
+            {
+                DeviceStateNotifyInfo deviceStateNotifyInfo = JSON.parseObject(appData,DeviceStateNotifyInfo.class);
+
+                if(null == deviceStateNotifyInfo){
+
+                    return  false;
+                }
+
+                ErrorCodeEnum result = ErrorCodeEnum.SUCCESS;
+                AlarmProcessApiMain.getInstance().onDeviceStateNotify(sgAppHeader.getSequenceNo(),sgAppHeader.getAppType(),result,deviceStateNotifyInfo);
+
             }
             break;
             default:

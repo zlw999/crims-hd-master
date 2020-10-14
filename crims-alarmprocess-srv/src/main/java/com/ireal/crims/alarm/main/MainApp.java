@@ -77,7 +77,7 @@ public class MainApp extends Thread {
 
     // 初始化消息中间件
     private boolean InitSgws() throws URISyntaxException {
-        if (!SgwsClientMain.getInstance().Init(ParamManager.sgServerEndPointsIp, ParamManager.nConnPort, ParamManager.wsClientDomainId, ParamManager.wsClientNodeId)) {
+        if (!SgwsClientMain.getInstance().Init(ParamManager.sgServerEndPointsIp, ParamManager.nConnPort, ParamManager.wsClientNodeId, ParamManager.wsClientDomainId)) {
             return false;
         }
         //调用 SgwsClientMain 实例

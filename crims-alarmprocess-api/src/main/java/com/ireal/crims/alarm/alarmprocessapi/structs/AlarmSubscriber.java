@@ -11,9 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApiModel("告警订阅")
 public class AlarmSubscriber {
 
-    private String nodeid;      // 订阅应用节点编号 SgAppHeader.srcAddr.appNodeId
-    private String domainid;    // 订阅应用域编号  SgAppHeader.srcAddr.domainId
-    private String subscribeid; //  订阅者(登录用户)编号
+    private String nodeid;              // 订阅应用节点编号 SgAppHeader.srcAddr.appNodeId
+    private String domainid;            // 订阅应用域编号  SgAppHeader.srcAddr.domainId
+    private String subscribeid;         //  订阅者(登录用户)编号
+    private Boolean firstSend = true;   //首次发送
 
     public String getNodeid() {
         return nodeid;
@@ -39,6 +40,14 @@ public class AlarmSubscriber {
         this.subscribeid = subscribeid;
     }
 
+    public Boolean getFirstSend() {
+        return firstSend;
+    }
+
+    public void setFirstSend(Boolean firstSend) {
+        this.firstSend = firstSend;
+    }
+
     public ConcurrentHashMap<AlarmKey, SubscribeInfo> getMapSubscribe() {
         return mapSubscribe;
     }
@@ -60,6 +69,7 @@ public class AlarmSubscriber {
     public boolean isSubscribed(AlarmKey alarmKey) {
         //表示全部订阅
         AlarmKey allAlarmKey = new AlarmKey(IMSConstant.DEF_ALL_NODE, IMSConstant.DEF_ALL_ALARMTYPE);
+
         //根据设备订阅
         AlarmKey mpAllAlarmKey = new AlarmKey(alarmKey.getMpid(), IMSConstant.DEF_ALL_ALARMTYPE);
 
@@ -129,7 +139,7 @@ public class AlarmSubscriber {
     public List<RecAlarmInfo> FilterNotifyAlarm(List<RecAlarmInfo> alarmList) {
 
         List<RecAlarmInfo> notifyAlarmList = new ArrayList<>();
-
+        
         //遍历循环告警信息，获取到每一个
         for (int i = 0; i < alarmList.size(); i++) {
             

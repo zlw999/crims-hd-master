@@ -32,23 +32,22 @@ public class SgAppWebSocket extends WebSocketClient {
             logger.info("连接成功。。。");
 
     }
-    //服务器发送消息到客户端时触发的事件
+    //服务器发送消息到客户端时触发的事件
 
     public void onMessage(String message) {
 
-       // logger.info("检测到服务器请求:"+ message);
+        logger.info("检测到服务器请求:"+ message);
 
     }
 
-    //收发消息事件
     @Override
     public void onMessage(ByteBuffer bytes) {
-        //1.获取收到数据数组
+        //获取收到数据数组
         byte[] byteMsg = bytes.array();
 
-        //2.判断是否为空，如果为空则返回，否则进行封装解析
+
         if( null == byteMsg ) {
-            return ;
+            return;
         }
 
         SgHeader tmpHeader= new SgHeader();
@@ -56,26 +55,26 @@ public class SgAppWebSocket extends WebSocketClient {
         //如果头的格式类型不相符合，则返回
         if( !SgBody.decodeHeader(byteMsg, tmpHeader, tmpAppHeader) )
         {
-            return ;
+            return;
         }
           //解析
         String sMsgBody = SgBody.decodeBody(byteMsg, tmpHeader, tmpAppHeader);
 
-        //调用回调函数，接收数据
         SgwsCallbackInterface cb = SgwsClientMain.getInstance().getCtrlCB();
         if(null != cb )
         {
             try {
 
+                //将头和体放入回调方法中
                 cb.OnReceiveData(tmpAppHeader, sMsgBody);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
 
-           //logger.info("!!!");
+            logger.info("!!!");
 
-
+        //super.onMessage(bytes);
     }
 
     //触发关闭事件
@@ -89,6 +88,7 @@ public class SgAppWebSocket extends WebSocketClient {
    //触发异常事件
     @Override
     public void onError(Exception ex) {
+
 
         logger.info("客户端发生错误,即将关闭",ex.getMessage());
     }

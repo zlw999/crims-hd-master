@@ -11,10 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingDeque;
 
 
 //告警订阅管理类
-public class AlarmSubscribeManager {
+public class AlarmSubscribeManager extends Thread  {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     private AlarmSubscribeManager() {
@@ -32,10 +33,49 @@ public class AlarmSubscribeManager {
     //缓存告警订阅信息集合
     private ConcurrentHashMap<SubscriberKey, AlarmSubscriber> mapSubscribe = new ConcurrentHashMap<>();
 
+    private boolean isRunning = true;
+
+    private LinkedBlockingDeque<AlarmSubscribeRequestAllInfo>  subscribeReqDeque = new LinkedBlockingDeque<>();
+
+    @Override
+    public void run() {
+
+        while (isRunning) {
+            try {
+                if (subscribeReqDeque.size() <= 0) {
+                    Thread.sleep(1000);
+                    continue;
+                }
+                //获取到队列中的所有数据
+                AlarmSubscribeRequestAllInfo subscribeReqInfo = subscribeReqDeque.poll();
+
+                this.AddAlarmSubscribe(subscribeReqInfo);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+    }
 
     ///告警订阅请求信息(显示端->集中告警处理服务)
     public int OnAlarmSubscribe(int sequenceNo, int appType, ErrorCodeEnum result, AlarmSubscribeRequestInfo alarmSubscribeRequestInfo) {
 
+        AlarmSubscribeRequestAllInfo requestInfo = new AlarmSubscribeRequestAllInfo();
+        requestInfo.setSequenceNo(sequenceNo);
+        requestInfo.setAppType(appType);
+        requestInfo.setResult(result);
+        requestInfo.setAlarmSubscribeRequestInfo(alarmSubscribeRequestInfo);
+
+        this.subscribeReqDeque.add(requestInfo);
+
+        return 0;
+    }
+
+    private int AddAlarmSubscribe(AlarmSubscribeRequestAllInfo requestInfo)
+    {
+        AlarmSubscribeRequestInfo alarmSubscribeRequestInfo = requestInfo.getAlarmSubscribeRequestInfo();
         //从订阅请求信息中，获取到订阅者
         SubscriberKey subscriber = new SubscriberKey();
         subscriber.setDomainid(alarmSubscribeRequestInfo.getDomainid());
@@ -52,7 +92,6 @@ public class AlarmSubscribeManager {
 
         if (null != alarmSubscriber) {
             //@TODO 判断订阅的对象是否存在，存在则返回
-
             return 0;
         }
 
@@ -77,7 +116,12 @@ public class AlarmSubscribeManager {
             //@TODO 目前订阅所有
             alarmSubscriber.addSubscribe(IMSConstant.DEF_ALL_NODE, IMSConstant.DEF_ALL_ALARMTYPE);
         }
-        
+
+         //TODO:从设备状态中过滤并组织告警信息，然后发送给订阅者
+        List<RecAlarmInfo> alarmList = DeviceStatusManager.getInstance().getSubscriberAlarmInfo(alarmSubscriber);
+
+        AlarmProcessApiMain.getInstance().getCtrlCB().OnAlarmNotify(alarmSubscriber.getDomainid(), alarmSubscriber.getNodeid(), alarmList);
+
         return 0;
     }
 
@@ -92,13 +136,14 @@ public class AlarmSubscribeManager {
 
             // 获取到key，value
             Map.Entry<SubscriberKey, AlarmSubscriber> entry = entries.next();
-
             SubscriberKey subscriber = entry.getKey();
             String destDomainid = subscriber.getDomainid();
             String destNodeid = subscriber.getNodeid();
 
             AlarmSubscriber alarmSubscriber = entry.getValue();
-
+            if( alarmSubscriber.getFirstSend() ) {
+                continue;
+            }
             //获取到用户订阅的告警信息
             List<RecAlarmInfo> alarmList = alarmSubscriber.FilterNotifyAlarm(alarmNotifyInfo.getAlarmList());
             //如果有订阅的告警信息，则发送通知给订阅者
