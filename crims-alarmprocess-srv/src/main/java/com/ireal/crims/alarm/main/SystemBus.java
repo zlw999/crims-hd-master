@@ -154,7 +154,7 @@ public class SystemBus implements SgwsCallbackInterface,
         int sequenceNo = SgwsClientMain.getInstance().getProtocolRequenceNo();
 
         int reqNo = MsgCmdEnum.AlarmProcess.getCmd();
-        SgDataFormat dataFormat = SgDataFormat.DATA_JSON_ANSI;
+        SgDataFormat dataFormat = SgDataFormat.DATA_JSON;
 
         String destDomainId = ParamManager.wsDestDomainId;
         String destAppNodeId = ParamManager.wsDestAppNodeId;
@@ -197,7 +197,7 @@ public class SystemBus implements SgwsCallbackInterface,
         SgAppType appType = SgAppType.APP_REQUEST;
         int sequenceNo = SgwsClientMain.getInstance().getProtocolRequenceNo();
         int reqNo = MsgCmdEnum.AlarmNotify.getCmd();
-        SgDataFormat dataFormat = SgDataFormat.DATA_JSON_ANSI;
+        SgDataFormat dataFormat = SgDataFormat.DATA_JSON;
 
         //集合转json对象
         Object appdata = JSON.toJSON(alarmList);
