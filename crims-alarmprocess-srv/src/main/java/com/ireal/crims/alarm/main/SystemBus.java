@@ -5,6 +5,9 @@ import com.ireal.crims.alarm.alarmprocessapi.interfaces.AlarmProcessCallbackInte
 import com.ireal.crims.alarm.alarmprocessapi.main.AlarmProcessApiMain;
 import com.ireal.crims.alarm.alarmprocessapi.structs.*;
 import com.ireal.crims.alarm.structs.Protocol_AlarmProcessInfo;
+import com.ireal.crims.alarm.structs.Protocol_AlarmSubscribeRequestInfo;
+import com.ireal.crims.alarm.structs.Protocol_DeviceSubscriberInfo;
+import com.ireal.crims.alarm.structs.Protocol_DeviceSubscriberRequestInfo;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import com.ireal.crims.common.enums.MsgCmdEnum;
 import com.ireal.crims.sgws.enums.SgAppType;
@@ -14,7 +17,7 @@ import com.ireal.crims.sgws.main.SgwsClientMain;
 import com.ireal.crims.sgws.structs.SgAppHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.filter.ApplicationContextHeaderFilter;
+
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -35,6 +38,7 @@ public class SystemBus implements SgwsCallbackInterface,
     private SystemBus() {
 
     }
+
     @Override
     public boolean OnReceiveData(SgAppHeader sgAppHeader, String appData) throws UnsupportedEncodingException {
 
@@ -80,7 +84,11 @@ public class SystemBus implements SgwsCallbackInterface,
             //==================================================================================
             case AlarmSubscribe:    // 告警订阅
             {
-                Protocol_AlarmSubscribeRequestInfo pro_alarmSubscribeRequestInfo = JSON.parseObject(appData, Protocol_AlarmSubscribeRequestInfo.class);
+//                String json = StringEscapeUtils.unescapeJava(appData);
+                //     String json = "{\"id\": \"0x03040203\",\"name\": \"AlarmSubscribe\",\"type\": \"01\",\"result\": \"01\",\"params\": {\"subscriberid\": \"10101010101010\"}}";
+                Protocol_AlarmSubscribeRequestInfo pro_alarmSubscribeRequestInfo
+                        = JSON.parseObject(appData, Protocol_AlarmSubscribeRequestInfo.class);
+
                 if (null == pro_alarmSubscribeRequestInfo) {
                     return false;
                 }
@@ -95,31 +103,39 @@ public class SystemBus implements SgwsCallbackInterface,
                 AlarmProcessApiMain.getInstance().OnAlarmSubscribe(sgAppHeader.getSequenceNo(), sgAppHeader.getAppType(), result, alarmSubscribeRequestInfo);
             }
             break;
+
+
             case DeviceStatusSubscribe:   //设备状态订阅
             {
 
-                DeviceSubscriberRequestInfo devSubRequestInfo = JSON.parseObject(appData, DeviceSubscriberRequestInfo.class);
+                Protocol_DeviceSubscriberRequestInfo protocol_devSubInfo = JSON.parseObject(appData, Protocol_DeviceSubscriberRequestInfo.class);
 
-                if(null == devSubRequestInfo){
-                    return  false;
+                if (null == protocol_devSubInfo) {
+                    return false;
                 }
+
+                DeviceStateSubReqInfo devStateSubReqInfo = new DeviceStateSubReqInfo();
+                devStateSubReqInfo.setDomainid("");
+                devStateSubReqInfo.setNodeid("");
+                devStateSubReqInfo.setSubscribeid(protocol_devSubInfo.getParams().getSubscriberid());
+                devStateSubReqInfo.setDevlist(protocol_devSubInfo.getParams().getDevlist());
+
                 ErrorCodeEnum result = ErrorCodeEnum.SUCCESS;
 
-                AlarmProcessApiMain.getInstance().onDeviceStateSubscriber(sgAppHeader.getSequenceNo(),sgAppHeader.getAppType(),result,devSubRequestInfo);
+                AlarmProcessApiMain.getInstance().OnDeviceStateSubscriber(sgAppHeader.getSequenceNo(), sgAppHeader.getAppType(), result, devStateSubReqInfo);
             }
             break;
 
             case DeviceStatusNotify: //设备状态通知
             {
-                DeviceStateNotifyInfo deviceStateNotifyInfo = JSON.parseObject(appData,DeviceStateNotifyInfo.class);
+             DeviceStateNotifyInfo deviceStateNotifyInfo = JSON.parseObject(appData, DeviceStateNotifyInfo.class);
 
-                if(null == deviceStateNotifyInfo){
+                if (null == deviceStateNotifyInfo) {
 
-                    return  false;
+                    return false;
                 }
-
                 ErrorCodeEnum result = ErrorCodeEnum.SUCCESS;
-                AlarmProcessApiMain.getInstance().onDeviceStateNotify(sgAppHeader.getSequenceNo(),sgAppHeader.getAppType(),result,deviceStateNotifyInfo);
+                AlarmProcessApiMain.getInstance().OnDeviceStateNotify(sgAppHeader.getSequenceNo(), sgAppHeader.getAppType(), result, deviceStateNotifyInfo);
 
             }
             break;
@@ -174,8 +190,7 @@ public class SystemBus implements SgwsCallbackInterface,
     }
 
 
-
-   //TODO 集中告警服务中回调函数接口的方法，用以调用该方法发送通知
+    //TODO 集中告警服务中回调函数接口的方法，用以调用该方法  发送告警通知
     @Override
     public int OnAlarmNotify(String targetNodeId, String targetDomainId, List<RecAlarmInfo> alarmList) {
         SgAppType appType = SgAppType.APP_REQUEST;
