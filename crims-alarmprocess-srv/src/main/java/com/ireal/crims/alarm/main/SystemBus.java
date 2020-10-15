@@ -115,8 +115,8 @@ public class SystemBus implements SgwsCallbackInterface,
                 }
 
                 DeviceStateSubReqInfo devStateSubReqInfo = new DeviceStateSubReqInfo();
-                devStateSubReqInfo.setDomainid("");
-                devStateSubReqInfo.setNodeid("");
+                devStateSubReqInfo.setDomainid(sgAppHeader.getDestAddr().getDomainId());
+                devStateSubReqInfo.setNodeid(sgAppHeader.getDestAddr().getAppNodeId());
                 devStateSubReqInfo.setSubscribeid(protocol_devSubInfo.getParams().getSubscriberid());
                 devStateSubReqInfo.setDevlist(protocol_devSubInfo.getParams().getDevlist());
 
