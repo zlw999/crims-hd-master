@@ -126,6 +126,8 @@ public class DeviceStatusManager {
     }
 
     public List<RecAlarmInfo> getSubscriberAlarmInfo(AlarmSubscriber alarmSubscriber){
+
+
         Map<String, DeviceStateInfo> stateMap = this.stateMap;
         List<RecAlarmInfo> recAlarminfos = new ArrayList<>();
         if(stateMap != null && !stateMap.isEmpty()){

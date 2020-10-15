@@ -1,12 +1,18 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.structs;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel("告警订阅请求信息")
-public class Protocol_AlarmSubscribeRequestInfo {
+public class Protocol_AlarmSubscribeRequestInfo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @JSONField(ordinal=1)
     private String id;
 
     @JSONField(ordinal=2)

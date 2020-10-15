@@ -1,18 +1,17 @@
 package com.ireal.crims.alarm.alarmprocessapi.structs;
 
 import io.swagger.annotations.ApiModel;
-
-import java.io.Serializable;
+import lombok.Data;
 
 /**
  * @auther shkstart
- * @create 2020-10-13-11:29
+ * @create 2020-10-15-9:37
  */
-
+@Data
 @ApiModel("设备信息")
-public class DeviceInfo implements Serializable {
+public class DeviceInfo {
 
-    private  String id;
+    private  String id;      //设备id
 
     public String getId() {
         return id;

@@ -40,7 +40,7 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     public boolean OnStart() {
 
        AlarmNotifyManager.getInstance().start();
-       AlarmSubscribeManager.getInstance().start();
+      // AlarmSubscribeManager.getInstance().start();
         return true;
     }
 
@@ -80,16 +80,14 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
 
 
     @Override
-    public int onDeviceStateSubscriber(int sequenceNo, int appType, ErrorCodeEnum result, DeviceSubscriberRequestInfo deviceSubscriberRequestInfo) {
-
-        return DeviceSubscriberManager.getInstance().onDeviceStateSubscriber(sequenceNo,appType,result, deviceSubscriberRequestInfo);
+    public int OnDeviceStateSubscriber(int sequenceNo, int appType, ErrorCodeEnum result, DeviceStateSubReqInfo deviceStateSubReqInfo) {
+        return 0;
     }
 
     @Override
-    public int onDeviceStateNotify(int sequenceNo, int appType, ErrorCodeEnum result, DeviceStateNotifyInfo deviceStateNotifyInfo) {
-        return DeviceNotifyManager.getInstance().onDeviceStateNotify(sequenceNo,appType,result, deviceStateNotifyInfo);
+    public int OnDeviceStateNotify(int sequenceNo, int appType, ErrorCodeEnum result, DeviceStateNotifyInfo deviceStateNotifyInfo) {
+        return 0;
     }
-
 
     @Override
     public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
