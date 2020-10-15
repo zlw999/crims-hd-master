@@ -14,8 +14,11 @@ import lombok.Data;
 public class DeviceStateSubReqAllInfo {
 
     private int sequenceNo;
+
     private int appType;
+
     private ErrorCodeEnum result;
+
     private DeviceStateSubReqInfo deviceStateSubReqInfo = new DeviceStateSubReqInfo();
 
     public int getSequenceNo() {

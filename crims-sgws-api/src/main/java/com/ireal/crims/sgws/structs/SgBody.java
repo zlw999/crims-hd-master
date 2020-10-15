@@ -77,7 +77,8 @@ public class SgBody {
 		this.msgBody = msgBody;
 	}
 
-	//SgHeader，SgAppHeader 数据拼接塞到byte数组中
+	//SgHeader，SgAppHeader 数据拼接塞到byte数组中
+
 	public byte[] encode(){
 //    	try {
 
@@ -177,7 +178,8 @@ public class SgBody {
 	}
 
 
-	//消息头解析
+	//消息头解析
+
 	public static boolean decodeHeader(byte[] msg, SgHeader sgHeader, SgAppHeader appHeader)
 	{
 		int length = 0;
@@ -271,11 +273,11 @@ public class SgBody {
 			return false;
 		}
 
-        String sMsgBody = UtilFun.ByteArrayToString(msg, nPos, nMsgLen, SgAppHeader.Protocol_CharsetName_GBK);
 		return true;
 	}
 
-	//消息体解析
+	//消息体解析
+
 	public static String decodeBody(byte[] msg, final SgHeader sgHeader, final SgAppHeader appHeader)
 	{
 		int length = 0;
@@ -296,7 +298,7 @@ public class SgBody {
         String msgBody = "";
         if( nLen > 0 )
         {
-        	msgBody = UtilFun.ByteArrayToString(msg, nPos, nLen, SgAppHeader.Protocol_CharsetName_UTF8);
+        	msgBody = UtilFun.ByteArrayToStringBody(msg, nPos, nLen, SgAppHeader.Protocol_CharsetName_Unicode);
         }
 
 		return msgBody;

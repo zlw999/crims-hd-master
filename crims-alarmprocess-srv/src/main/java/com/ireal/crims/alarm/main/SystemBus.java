@@ -84,7 +84,7 @@ public class SystemBus implements SgwsCallbackInterface,
             //==================================================================================
             case AlarmSubscribe:    // 告警订阅
             {
-//                String json = StringEscapeUtils.unescapeJava(appData);
+
                 //     String json = "{\"id\": \"0x03040203\",\"name\": \"AlarmSubscribe\",\"type\": \"01\",\"result\": \"01\",\"params\": {\"subscriberid\": \"10101010101010\"}}";
                 Protocol_AlarmSubscribeRequestInfo pro_alarmSubscribeRequestInfo
                         = JSON.parseObject(appData, Protocol_AlarmSubscribeRequestInfo.class);
@@ -135,6 +135,7 @@ public class SystemBus implements SgwsCallbackInterface,
                     return false;
                 }
                 ErrorCodeEnum result = ErrorCodeEnum.SUCCESS;
+
                 AlarmProcessApiMain.getInstance().OnDeviceStateNotify(sgAppHeader.getSequenceNo(), sgAppHeader.getAppType(), result, deviceStateNotifyInfo);
 
             }

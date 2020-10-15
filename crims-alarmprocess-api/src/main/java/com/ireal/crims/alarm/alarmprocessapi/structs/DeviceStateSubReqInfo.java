@@ -14,10 +14,10 @@ import java.util.List;
 @ApiModel("设备状态订阅请求的信息")
 public class DeviceStateSubReqInfo {
 
-    private String nodeid;      // 订阅应用节点编号 SgAppHeader.srcAddr.appNodeId
-    private String domainid;    // 订阅应用域编号  SgAppHeader.srcAddr.domainId
-    private String subscribeid; //  订阅者(登录用户)编号
-    private List<DeviceInfo> devlist = new ArrayList<>();
+    private String nodeid;                                // 订阅应用节点编号 SgAppHeader.srcAddr.appNodeId
+    private String domainid;                              // 订阅应用域编号  SgAppHeader.srcAddr.domainId
+    private String subscribeid;                           //  订阅者(登录用户)编号
+    private List<DeviceInfo> devlist = new ArrayList<>(); //设备列表
 
     public String getNodeid() {
         return nodeid;

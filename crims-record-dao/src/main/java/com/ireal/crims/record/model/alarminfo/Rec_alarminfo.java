@@ -2,6 +2,7 @@ package com.ireal.crims.record.model.alarminfo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageInfo;
+
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

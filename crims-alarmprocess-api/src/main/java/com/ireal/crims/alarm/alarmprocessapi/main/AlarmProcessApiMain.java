@@ -40,7 +40,7 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     public boolean OnStart() {
 
        AlarmNotifyManager.getInstance().start();
-      // AlarmSubscribeManager.getInstance().start();
+       AlarmSubscribeManager.getInstance().start();
         return true;
     }
 

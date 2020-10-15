@@ -93,6 +93,32 @@ public class UtilFun
         }
     }
 
+    public static String ByteArrayToStringBody(byte b1[], int nBeginPos, int nLen, String sCharSet)
+    {
+        try
+        {
+            {
+                int num = b1.length / 2;
+                for(int i = 0; i < num; i++)
+                {
+                    int i2 = i + i;
+                    byte t = b1[i2];
+                    b1[i2] = b1[i2 + 1];
+                    b1[i2 + 1] = t;
+                }
+            }
+            String sRet = new String(b1, nBeginPos, nLen, sCharSet);
+            int nIndex = sRet.indexOf('\0');
+            if (nIndex >= 0)
+                sRet = sRet.substring(0, nIndex);
+            return sRet;
+        }
+        catch (Exception e)
+        {
+            return "";
+        }
+    }
+
     public static String GetParameter(String vs_src, String vs_var_name)
     {
         String sSaveSrc = vs_src;

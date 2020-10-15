@@ -58,9 +58,7 @@ public class MsgProcesserTest extends Thread {
 
                     String tmpData = SgBody.decodeBody(msg, tmpHeader, tmpAppHeader);
 
-                   SgwsClientMain.getInstance().getCtrlCB().OnReceiveData(tmpAppHeader, tmpData);
-
-
+                    SgwsClientMain.getInstance().getCtrlCB().OnReceiveData(tmpAppHeader, tmpData);
                 }
 
                 Thread.sleep(10);
@@ -104,19 +102,16 @@ public class MsgProcesserTest extends Thread {
 
     /**
      * 消息处理过程
-     * @param msg 待处理
-
+     * @param msg 待处理
      */
     public void addMsg(byte[] msg)
     {
-        msgQueue.put(msg); //将消息放入消息队列
-
+        msgQueue.put(msg); //将消息放入消息队列
     }
 
     /*
      * 从消息队列中取得一个待处理的消息，如果没有消息将挂起线程直到有消息出现
-     * 取出后消息自动从队列中清除
-
+     * 取出后消息自动从队列中清除
      * @return 消息
      */
     private byte[] getMsg()
@@ -175,8 +170,7 @@ class MsgQueue
     private List<byte[]> list = new ArrayList<byte[]>();
     /**
      * 添加新元素到队列
-     * @param msg   待加入元素
-
+     * @param msg   待加入元素
 
      */
     public void put(byte[] msg)
@@ -188,10 +182,8 @@ class MsgQueue
         }
     }
     /**
-     * 得到最早加入队列的一个元素
-
-     * @return  最早加入队列的一个元素
-
+     * 得到最早加入队列的一个元素
+     * @return  最早加入队列的一个元素
      */
     public byte[] get()
     {
@@ -206,8 +198,7 @@ class MsgQueue
     }
 
     /**
-     * 取得队列的消息数目
-
+     * 取得队列的消息数目
      * @return 队列中对象的数目
      */
     public int getNum()
