@@ -1,6 +1,6 @@
 package com.ireal.crims.alarm.structs;
 
-import com.ireal.crims.alarm.alarmprocessapi.structs.DeviceInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceInfo;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -37,4 +37,6 @@ public class Protocol_DeviceSubscriberInfo {
     public void setDevlist(List<DeviceInfo> devlist) {
         this.devlist = devlist;
     }
+
+
 }

@@ -1,8 +1,10 @@
 package com.ireal.crims.alarm.structs;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmProcessInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmProcessInfo;
+import lombok.Data;
 
+@Data
 public class Protocol_AlarmProcessInfo {
     @JSONField(ordinal=1)
     private String id;
