@@ -3,7 +3,7 @@ package com.ireal.crims.alarm.alarmprocessapi.apps.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ireal.crims.alarm.alarmprocessapi.apps.service.Rec_alarminfoService;
-import com.ireal.crims.alarm.alarmprocessapi.structs.CurrAlarmQueryResponseInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.CurrAlarmQueryResponseInfo;
 import com.ireal.crims.record.dao.alarminfo.Rec_alarminfoMapper;
 import com.ireal.crims.record.model.alarminfo.Rec_alarminfo;
 import org.springframework.stereotype.Service;

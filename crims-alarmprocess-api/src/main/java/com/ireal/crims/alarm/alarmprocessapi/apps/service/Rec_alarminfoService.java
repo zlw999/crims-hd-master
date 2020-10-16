@@ -1,10 +1,8 @@
 package com.ireal.crims.alarm.alarmprocessapi.apps.service;
 
-import com.ireal.crims.alarm.alarmprocessapi.structs.CurrAlarmQueryResponseInfo;
-import com.ireal.crims.record.model.alarminfo.Rec_alarminfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.CurrAlarmQueryResponseInfo;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @auther zhanglongwei
