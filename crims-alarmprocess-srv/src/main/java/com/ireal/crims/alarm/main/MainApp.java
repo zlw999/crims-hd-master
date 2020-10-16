@@ -1,12 +1,15 @@
 package com.ireal.crims.alarm.main;
 
 
+import com.ireal.crims.alarm.alarmprocessapi.container.DataCache;
 import com.ireal.crims.alarm.alarmprocessapi.main.AlarmProcessApiMain;
+import com.ireal.crims.record.model.alarminfo.Rec_alarminfo;
 import com.ireal.crims.sgws.main.SgwsClientMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 
 public class MainApp extends Thread {
@@ -44,6 +47,11 @@ public class MainApp extends Thread {
                 break;
             }
 
+            //获取到数据库每个设备最高等级的未结束告警信息
+            List<Rec_alarminfo> alarmInfoList = DataCache.getInstance().getAlarminfoMapper().getMaxOrNoEndAlarmInfoList();
+            //加载到缓存中
+            DataCache.getInstance().cacheRecAlarmInfo(alarmInfoList);
+
             if (!this.StartSgws()) {
 
                 logger.error("客户端模块启动失败。。。。。");
@@ -69,7 +77,6 @@ public class MainApp extends Thread {
             } else {
                 logger.info("集中告警服务模块启动成功。。。。");
             }
-
 
 
         } while (false);
@@ -124,4 +131,5 @@ public class MainApp extends Thread {
         }
         return true;
     }
+
 }
