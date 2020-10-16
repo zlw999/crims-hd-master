@@ -1,25 +1,18 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.alarmprocessapi.structs.alarm;
 
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-/**
- * @auther shkstart
- * @create 2020-10-15-9:50
- */
-
 @Data
-@ApiModel("设备状态订阅请求的全部信息")
-public class DeviceStateSubReqAllInfo {
+@ApiModel("告警订阅请求信息")
+public class AlarmSubscribeRequestAllInfo {
+
 
     private int sequenceNo;
-
     private int appType;
-
     private ErrorCodeEnum result;
-
-    private DeviceStateSubReqInfo deviceStateSubReqInfo = new DeviceStateSubReqInfo();
+    private AlarmSubscribeRequestInfo alarmSubscribeRequestInfo = new AlarmSubscribeRequestInfo();
 
     public int getSequenceNo() {
         return sequenceNo;
@@ -45,11 +38,11 @@ public class DeviceStateSubReqAllInfo {
         this.result = result;
     }
 
-    public DeviceStateSubReqInfo getDeviceStateSubReqInfo() {
-        return deviceStateSubReqInfo;
+    public AlarmSubscribeRequestInfo getAlarmSubscribeRequestInfo() {
+        return alarmSubscribeRequestInfo;
     }
 
-    public void setDeviceStateSubReqInfo(DeviceStateSubReqInfo deviceStateSubReqInfo) {
-        this.deviceStateSubReqInfo = deviceStateSubReqInfo;
+    public void setAlarmSubscribeRequestInfo(AlarmSubscribeRequestInfo alarmSubscribeRequestInfo) {
+        this.alarmSubscribeRequestInfo = alarmSubscribeRequestInfo;
     }
 }

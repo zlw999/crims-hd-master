@@ -1,4 +1,4 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.alarmprocessapi.structs.device;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ireal.crims.common.enums.NetConnectStateEnum;

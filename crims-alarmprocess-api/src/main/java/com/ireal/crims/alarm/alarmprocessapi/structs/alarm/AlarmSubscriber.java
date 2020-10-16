@@ -1,4 +1,4 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.alarmprocessapi.structs.alarm;
 
 import com.ireal.crims.common.constants.IMSConstant;
 import io.swagger.annotations.ApiModel;
@@ -93,7 +93,6 @@ public class AlarmSubscriber {
 
             } else if (key.getMpid() .equals(alarmKey.getMpid())
                     && key.getAlarmtype() .equals(alarmKey.getAlarmtype()) ) {
-                
                 return true;
             }
         }
@@ -139,10 +138,10 @@ public class AlarmSubscriber {
     public List<RecAlarmInfo> FilterNotifyAlarm(List<RecAlarmInfo> alarmList) {
 
         List<RecAlarmInfo> notifyAlarmList = new ArrayList<>();
-        
+
         //遍历循环告警信息，获取到每一个
         for (int i = 0; i < alarmList.size(); i++) {
-            
+
             RecAlarmInfo alarmInfo = alarmList.get(i);
             AlarmKey alarmKey = new AlarmKey(alarmInfo.getDeviceid(), alarmInfo.getAlarmType());
             //判断是否是订阅者订阅的告警，如果是 则添加集合中，并返回
@@ -150,7 +149,6 @@ public class AlarmSubscriber {
 
                 notifyAlarmList.add(alarmInfo);
             }
-
         }
         return notifyAlarmList;
     }

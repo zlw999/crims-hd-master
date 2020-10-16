@@ -1,4 +1,4 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.alarmprocessapi.structs.alarm;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageInfo;

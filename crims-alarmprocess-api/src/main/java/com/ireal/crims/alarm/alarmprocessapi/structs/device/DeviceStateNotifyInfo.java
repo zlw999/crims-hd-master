@@ -1,6 +1,7 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.alarmprocessapi.structs.device;
 
 import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,11 +11,12 @@ import java.util.List;
  * @auther shkstart
  * @create 2020-10-13-10:46
  */
-
+@Data
 @ApiModel("设备状态通知信息")
 public class DeviceStateNotifyInfo implements Serializable {
 
-    private String srcNodeId;   //告警源编号(告警分析服务应用编号)
+
+    private String srcNodeId;   //设备状态源编号(设备状态分析服务应用编号)
     
     private List<DeviceStateInfo> datalist = new ArrayList<>();
 

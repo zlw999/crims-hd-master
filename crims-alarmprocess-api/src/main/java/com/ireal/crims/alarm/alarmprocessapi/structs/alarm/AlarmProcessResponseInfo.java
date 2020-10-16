@@ -1,4 +1,4 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.alarmprocessapi.structs.alarm;
 
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import io.swagger.annotations.ApiModel;

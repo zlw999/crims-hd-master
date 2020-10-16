@@ -1,4 +1,4 @@
-package com.ireal.crims.alarm.alarmprocessapi.structs;
+package com.ireal.crims.alarm.alarmprocessapi.structs.alarm;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
