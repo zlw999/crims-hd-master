@@ -3,10 +3,15 @@ package com.ireal.crims.alarm.main;
 import com.alibaba.fastjson.JSON;
 import com.ireal.crims.alarm.alarmprocessapi.interfaces.AlarmProcessCallbackInterface;
 import com.ireal.crims.alarm.alarmprocessapi.main.AlarmProcessApiMain;
-import com.ireal.crims.alarm.alarmprocessapi.structs.*;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmNotifyInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmProcessInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmSubscribeRequestInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.RecAlarmInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateNotifyInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateSubReqInfo;
 import com.ireal.crims.alarm.structs.Protocol_AlarmProcessInfo;
 import com.ireal.crims.alarm.structs.Protocol_AlarmSubscribeRequestInfo;
-import com.ireal.crims.alarm.structs.Protocol_DeviceSubscriberInfo;
 import com.ireal.crims.alarm.structs.Protocol_DeviceSubscriberRequestInfo;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import com.ireal.crims.common.enums.MsgCmdEnum;
@@ -95,8 +100,8 @@ public class SystemBus implements SgwsCallbackInterface,
                 ErrorCodeEnum result = ErrorCodeEnum.SUCCESS; // protocolAlarmProcessInfo.getResult();
 
                 AlarmSubscribeRequestInfo alarmSubscribeRequestInfo = new AlarmSubscribeRequestInfo();
-                alarmSubscribeRequestInfo.setNodeid(sgAppHeader.getDestAddr().getAppNodeId());
-                alarmSubscribeRequestInfo.setDomainid(sgAppHeader.getDestAddr().getDomainId());
+                alarmSubscribeRequestInfo.setNodeid(sgAppHeader.getSrcAddr().getAppNodeId());
+                alarmSubscribeRequestInfo.setDomainid(sgAppHeader.getSrcAddr().getDomainId());
                 alarmSubscribeRequestInfo.setSubscribeid(pro_alarmSubscribeRequestInfo.getParams().getSubscriberid());
 
 
@@ -115,8 +120,8 @@ public class SystemBus implements SgwsCallbackInterface,
                 }
 
                 DeviceStateSubReqInfo devStateSubReqInfo = new DeviceStateSubReqInfo();
-                devStateSubReqInfo.setDomainid(sgAppHeader.getDestAddr().getDomainId());
-                devStateSubReqInfo.setNodeid(sgAppHeader.getDestAddr().getAppNodeId());
+                devStateSubReqInfo.setDomainid(sgAppHeader.getSrcAddr().getDomainId());
+                devStateSubReqInfo.setNodeid(sgAppHeader.getSrcAddr().getAppNodeId());
                 devStateSubReqInfo.setSubscribeid(protocol_devSubInfo.getParams().getSubscriberid());
                 devStateSubReqInfo.setDevlist(protocol_devSubInfo.getParams().getDevlist());
 
@@ -197,7 +202,7 @@ public class SystemBus implements SgwsCallbackInterface,
         SgAppType appType = SgAppType.APP_REQUEST;
         int sequenceNo = SgwsClientMain.getInstance().getProtocolRequenceNo();
         int reqNo = MsgCmdEnum.AlarmNotify.getCmd();
-        SgDataFormat dataFormat = SgDataFormat.DATA_JSON;
+        SgDataFormat dataFormat = SgDataFormat.DATA_JSON_ANSI;
 
         //集合转json对象
         Object appdata = JSON.toJSON(alarmList);
@@ -217,6 +222,28 @@ public class SystemBus implements SgwsCallbackInterface,
 
     }
 
+    @Override
+    public int OnDevStatusNotify(String targetNodeId, String targetDomainId, List<DeviceStateInfo> devList) {
+        SgAppType appType = SgAppType.APP_REQUEST;
+        int sequenceNo = SgwsClientMain.getInstance().getProtocolRequenceNo();
+        int reqNo = MsgCmdEnum.DeviceStatusSubscribe.getCmd();
+        SgDataFormat dataFormat = SgDataFormat.DATA_JSON_ANSI;
+
+        //集合转json对象
+        Object appdata = JSON.toJSON(devList);
+
+        try {
+            //通过消息模块发送
+
+            if (!SgwsClientMain.getInstance().SendData(appType, sequenceNo, reqNo, dataFormat, targetDomainId, targetNodeId, appdata.toString())) {
+                return 0;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return sequenceNo;
+    }
 
     //将头的的信息封装  SequenceNo
 /*    private static SgAppHeader sgAppHeader() {
