@@ -72,25 +72,16 @@ public class AlarmSubscriber {
 
         //根据设备订阅
         AlarmKey mpAllAlarmKey = new AlarmKey(alarmKey.getMpid(), IMSConstant.DEF_ALL_ALARMTYPE);
-
        /* Iterator<Map.Entry<AlarmKey, SubscribeInfo>> iterator = mapSubscribe.entrySet().iterator();
-
         while (iterator.hasNext()) {
-
             Map.Entry<AlarmKey, SubscribeInfo> entry = iterator.next();
-
             AlarmKey key = entry.getKey();
-
             if (key.getMpid() .equals(allAlarmKey.getMpid())
                     && key.getAlarmtype() .equals(allAlarmKey.getAlarmtype())) {
-
                 return true;
-
             } else if (key.getMpid() .equals(mpAllAlarmKey.getMpid())
                     && key.getAlarmtype() .equals(mpAllAlarmKey.getAlarmtype()) ) {
-
                 return true;
-
             } else if (key.getMpid() .equals(alarmKey.getMpid())
                     && key.getAlarmtype() .equals(alarmKey.getAlarmtype()) ) {
                 return true;
@@ -134,7 +125,7 @@ public class AlarmSubscriber {
     }
 
 
-    //过滤出用户订阅的告警信息
+    //过滤出订阅者订阅的告警信息
     public List<RecAlarmInfo> FilterNotifyAlarm(List<RecAlarmInfo> alarmList) {
 
         List<RecAlarmInfo> notifyAlarmList = new ArrayList<>();
@@ -200,8 +191,6 @@ class AlarmKey {
         return Objects.hash(getMpid(), getAlarmtype());
     }
 }
-
-
 
 
 class SubscribeInfo {
