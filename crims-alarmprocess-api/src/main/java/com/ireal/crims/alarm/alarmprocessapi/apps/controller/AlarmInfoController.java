@@ -6,7 +6,7 @@ import com.ireal.crims.alarm.alarmprocessapi.apps.service.Rec_alarminfoService;
 import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmProcessManager;
 import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmSubscribeManager;
 import com.ireal.crims.alarm.alarmprocessapi.manage.AlarmNotifyManager;
-import com.ireal.crims.alarm.alarmprocessapi.structs.*;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.*;
 import com.ireal.crims.alarm.alarmprocessapi.vo.AlarmProcessInfoVO;
 import com.ireal.crims.common.enums.AlarmProcessCmdEnum;
 
@@ -169,9 +169,10 @@ public class AlarmInfoController {
     }
 */
 
+/*
    //订阅
   @PostMapping("/alarmSubscriber")
-    public String alarmSubscriber(  AlarmSubscriber alarmSubscriber ,@RequestBody AlarmNotifyInfo notifyInfo){
+    public String alarmSubscriber(AlarmSubscriber alarmSubscriber , @RequestBody AlarmNotifyInfo notifyInfo){
 
       AlarmSubscribeRequestInfo alarmSubscribeRequestInfo = new AlarmSubscribeRequestInfo();
 
@@ -187,6 +188,7 @@ public class AlarmInfoController {
 
       return null;
   }
+*/
 
 
 /*  //通知
