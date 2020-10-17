@@ -1,9 +1,9 @@
 package com.ireal.crims.alarm.alarmprocessapi.manage;
 
-import com.alibaba.druid.sql.visitor.functions.If;
 import com.ireal.crims.alarm.alarmprocessapi.container.DataCache;
-import com.ireal.crims.alarm.alarmprocessapi.structs.*;
-import com.ireal.crims.common.enums.ErrorCodeEnum;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmSubscriber;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.RecAlarmInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateInfo;
 import com.ireal.crims.record.model.alarminfo.Rec_alarminfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +16,8 @@ import java.util.concurrent.ConcurrentMap;
 //设备状态管理类
 public class DeviceStatusManager {
 
-
     public Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private static class SingletonHolder {
         public static DeviceStatusManager instance = new DeviceStatusManager();
     }
@@ -28,16 +27,6 @@ public class DeviceStatusManager {
     }
 
     private DeviceStatusManager() {
-    }
-
-    private ConcurrentMap<String, DeviceStateInfo> stateMap = new ConcurrentHashMap<>();
-
-    public ConcurrentMap<String, DeviceStateInfo> getStateMap() {
-        return stateMap;
-    }
-
-    public void setStateMap(ConcurrentMap<String, DeviceStateInfo> stateMap) {
-        this.stateMap = stateMap;
     }
 
     public boolean Init() {
@@ -59,9 +48,8 @@ public class DeviceStatusManager {
             String alarmLevel = recAlarmInfo.getAlarmLevel();
             Date alarmDisTime = recAlarmInfo.getAlarmDisTime();
             Date alarmTime = recAlarmInfo.getAlarmTime();
-
             //获取到数据库每个设备最高等级的未结束告警信息
-            List<Rec_alarminfo> alarmInfoList = DataCache.getInstance().getAlarminfoMapper().getMaxOrNoEndAlarmInfoList();
+           /* List<Rec_alarminfo> alarmInfoList = DataCache.getInstance().getAlarminfoMapper().getMaxOrNoEndAlarmInfoList();
 
             //加载到缓存stateMap当中
             for (int j = 0; j < alarmInfoList.size(); j++) {
@@ -74,17 +62,17 @@ public class DeviceStatusManager {
                 deviceStateInfo.setFaultLevel(rec_alarminfo.getAlarmlevel());
                 //将数据库的告警信息同步到缓存中
                 this.stateMap.put(deviceid1, deviceStateInfo);
-            }
+            }*/
 
             //如果缓存中存在该设备 (传进来的告警通知信息与缓存staeMap对比)
-            if (this.stateMap.containsKey(deviceid)) {
+            Map<String, DeviceStateInfo> hashMap = DataCache.getInstance().getStateMap();
+            if (DataCache.getInstance().getStateMap().containsKey(deviceid)) {
                 //获取该设备状态对象
-                DeviceStateInfo deviceStateInfo = this.stateMap.get(deviceid);
+                DeviceStateInfo deviceStateInfo = hashMap.get(deviceid);
                 //如果缓存中的 deviceStateInfo为null ，接下来判断是（结束告警或未结束告警）
                 if (null == deviceStateInfo) {
                     //如果告警结束，就直接，重新循环
                     if (alarmDisTime.getTime() != deviceStateInfo.getFaultTime().getTime()) {
-
 
                     } else {
                         //如果是未结束告警，创建一个对象
@@ -119,18 +107,18 @@ public class DeviceStatusManager {
                 DeviceStateInfo deviceStateInfo = new DeviceStateInfo();
                 deviceStateInfo.setId(deviceid);
                 deviceStateInfo.setFaultLevel(alarmLevel);
-                // deviceStateInfo.setFaultTime(recAlarmInfo.getAlarmTime());
-                stateMap.put(deviceid, deviceStateInfo);
+                deviceStateInfo.setFaultTime(recAlarmInfo.getAlarmTime());
+                DataCache.getInstance().getStateMap().put(deviceid, deviceStateInfo);
             }
         }
     }
 
-    public List<RecAlarmInfo> getSubscriberAlarmInfo(AlarmSubscriber alarmSubscriber){
+    // 过滤并组织用户订阅的告警信息
+    public List<RecAlarmInfo> getSubscriberAlarmInfo(AlarmSubscriber alarmSubscriber) {
 
-
-        Map<String, DeviceStateInfo> stateMap = this.stateMap;
+        Map<String, DeviceStateInfo> stateMap = DataCache.getInstance().getStateMap();
         List<RecAlarmInfo> recAlarminfos = new ArrayList<>();
-        if(stateMap != null && !stateMap.isEmpty()){
+        if (stateMap != null && !stateMap.isEmpty()) {
             for (Map.Entry<String, DeviceStateInfo> entry : stateMap.entrySet()) {
                 RecAlarmInfo recAlarmInfo = new RecAlarmInfo();
                 recAlarmInfo.setDeviceid(entry.getValue().getId());
@@ -138,7 +126,6 @@ public class DeviceStatusManager {
                 recAlarminfos.add(recAlarmInfo);
             }
         }
-
         return recAlarminfos;
     }
 

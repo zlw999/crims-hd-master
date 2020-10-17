@@ -1,6 +1,6 @@
 package com.ireal.crims.alarm.alarmprocessapi.manage;
 
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmNotifyInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmNotifyInfo;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ public class AlarmNotifyManager extends Thread {
                 AlarmNotifyInfo alarmNotifyInfo = alarmNotifyDeque.poll();
                 //获取更新设备的状态
                 DeviceStatusManager.getInstance().UpdateDeviceStatus(alarmNotifyInfo.getAlarmList());
-                //获取到订阅者要发送的通知
+                //过滤出订阅者订阅的告警信息，发送通知
                 AlarmSubscribeManager.getInstance().AlarmNotify(alarmNotifyInfo);
 
             } catch (InterruptedException e) {

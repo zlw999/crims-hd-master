@@ -1,8 +1,8 @@
 package com.ireal.crims.alarm.alarmprocessapi.manage;
 
 import com.ireal.crims.alarm.alarmprocessapi.main.AlarmProcessApiMain;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmProcessInfo;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmProcessResponseInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmProcessInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmProcessResponseInfo;
 import com.ireal.crims.alarm.alarmprocessapi.vo.AlarmProcessInfoVO;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import org.slf4j.Logger;

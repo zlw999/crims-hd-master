@@ -2,12 +2,9 @@ package com.ireal.crims.alarm.alarmprocessapi.vo;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.ireal.crims.alarm.alarmprocessapi.structs.AlarmInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmInfo;
 import io.swagger.annotations.ApiModel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.ireal.crims.alarm.alarmprocessapi.manage;
 
 import com.ireal.crims.alarm.alarmprocessapi.main.AlarmProcessApiMain;
-import com.ireal.crims.alarm.alarmprocessapi.structs.*;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.*;
 import com.ireal.crims.common.constants.IMSConstant;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import io.swagger.annotations.ApiModel;
@@ -30,7 +30,7 @@ public class AlarmSubscribeManager extends Thread  {
     }
 
 
-    //缓存告警订阅信息集合
+    //缓存告警订阅者
     private ConcurrentHashMap<SubscriberKey, AlarmSubscriber> mapSubscribe = new ConcurrentHashMap<>();
 
     private boolean isRunning = true;
@@ -120,7 +120,7 @@ public class AlarmSubscribeManager extends Thread  {
          //TODO:从设备状态中过滤并组织告警信息，然后发送给订阅者
         List<RecAlarmInfo> alarmList = DeviceStatusManager.getInstance().getSubscriberAlarmInfo(alarmSubscriber);
 
-        AlarmProcessApiMain.getInstance().getCtrlCB().OnAlarmNotify(alarmSubscriber.getDomainid(), alarmSubscriber.getNodeid(), alarmList);
+        AlarmProcessApiMain.getInstance().getCtrlCB().OnAlarmNotify(alarmSubscriber.getNodeid(),alarmSubscriber.getDomainid() , alarmList);
 
         return 0;
     }
@@ -141,9 +141,11 @@ public class AlarmSubscribeManager extends Thread  {
             String destNodeid = subscriber.getNodeid();
 
             AlarmSubscriber alarmSubscriber = entry.getValue();
+
             if( alarmSubscriber.getFirstSend() ) {
                 continue;
             }
+
             //获取到用户订阅的告警信息
             List<RecAlarmInfo> alarmList = alarmSubscriber.FilterNotifyAlarm(alarmNotifyInfo.getAlarmList());
             //如果有订阅的告警信息，则发送通知给订阅者
@@ -151,8 +153,9 @@ public class AlarmSubscribeManager extends Thread  {
 
                 //@TODO 发送通知
                 AlarmProcessApiMain.getInstance().getCtrlCB().OnAlarmNotify(destDomainid, destNodeid, alarmList);
-            }
 
+                alarmSubscriber.setFirstSend(false);
+            }
         }
     }
 }

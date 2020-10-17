@@ -1,6 +1,11 @@
 package com.ireal.crims.alarm.alarmprocessapi.interfaces;
 
-import com.ireal.crims.alarm.alarmprocessapi.structs.*;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmNotifyInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmProcessInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmSubscribeRequestInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.RecAlarmInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateNotifyInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateSubReqInfo;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 
 import java.util.List;

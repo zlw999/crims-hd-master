@@ -2,8 +2,14 @@ package com.ireal.crims.alarm.alarmprocessapi.main;
 
 import com.ireal.crims.alarm.alarmprocessapi.interfaces.AlarmProcessCallbackInterface;
 import com.ireal.crims.alarm.alarmprocessapi.interfaces.AlarmProcessInterface;
+import com.ireal.crims.alarm.alarmprocessapi.interfaces.DevStatucProcessCallbackInterface;
 import com.ireal.crims.alarm.alarmprocessapi.manage.*;
-import com.ireal.crims.alarm.alarmprocessapi.structs.*;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmNotifyInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmProcessInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.AlarmSubscribeRequestInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.alarm.RecAlarmInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateNotifyInfo;
+import com.ireal.crims.alarm.alarmprocessapi.structs.device.DeviceStateSubReqInfo;
 import com.ireal.crims.common.enums.ErrorCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +29,7 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
 
     private AlarmProcessCallbackInterface ctrlCB = null;
 
+
     @Override
     public boolean Init() {
 
@@ -39,8 +46,10 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     @Override
     public boolean OnStart() {
 
-       AlarmNotifyManager.getInstance().start();
-       AlarmSubscribeManager.getInstance().start();
+        AlarmNotifyManager.getInstance().start();
+        AlarmSubscribeManager.getInstance().start();
+        DeviceStateSubManager.getInstance().start();
+        DeviceNotifyManager.getInstance().start();
         return true;
     }
 
@@ -50,15 +59,13 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     }
 
 
-
     //告警的响应解析处理
     @Override
     public int OnAlarmProcessResponse(int sequenceNo, int appType, ErrorCodeEnum result, AlarmProcessInfo alarmProcessInfo) {
 
 
         //调用 AlarmProcessManager实例的 OnAlarmProcessResponse方法在其中做处理告警响应
-       return   AlarmProcessManager.getInstance().OnAlarmProcessResponse(sequenceNo, appType, result, alarmProcessInfo);
-
+        return AlarmProcessManager.getInstance().OnAlarmProcessResponse(sequenceNo, appType, result, alarmProcessInfo);
 
 
     }
@@ -66,7 +73,7 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     @Override
     public int OnAlarmSubscribe(int sequenceNo, int appType, ErrorCodeEnum result, AlarmSubscribeRequestInfo alarmSubscribeRequestInfo) {
 
-        return AlarmSubscribeManager.getInstance().OnAlarmSubscribe(sequenceNo,appType,result,alarmSubscribeRequestInfo);
+        return AlarmSubscribeManager.getInstance().OnAlarmSubscribe(sequenceNo, appType, result, alarmSubscribeRequestInfo);
 
     }
 
@@ -75,27 +82,25 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
     public int OnAlarmNotify(int sequenceNo, int appType, ErrorCodeEnum result, AlarmNotifyInfo alarmNotifyInfo) {
 
 
-        return AlarmNotifyManager.getInstance().OnAlarmNotify(sequenceNo,appType,result,alarmNotifyInfo);
+        return AlarmNotifyManager.getInstance().OnAlarmNotify(sequenceNo, appType, result, alarmNotifyInfo);
     }
 
 
     @Override
     public int OnDeviceStateSubscriber(int sequenceNo, int appType, ErrorCodeEnum result, DeviceStateSubReqInfo deviceStateSubReqInfo) {
-        return 0;
+        return DeviceStateSubManager.getInstance().OnDeviceStateSubscriber(sequenceNo, appType, result, deviceStateSubReqInfo);
     }
 
     @Override
     public int OnDeviceStateNotify(int sequenceNo, int appType, ErrorCodeEnum result, DeviceStateNotifyInfo deviceStateNotifyInfo) {
-        return 0;
+        return DeviceNotifyManager.getInstance().OnDeviceStateNotify(sequenceNo, appType, result, deviceStateNotifyInfo);
     }
+
 
     @Override
     public int OnAlarmNotifyResponse(int sequenceNo, ErrorCodeEnum result) {
-
-        return  0;
+        return 0;
     }
-
-
 
 
     @Override
@@ -103,10 +108,10 @@ public class AlarmProcessApiMain implements AlarmProcessInterface {
         this.ctrlCB = ctrlCB;
         return true;
     }
+
     public AlarmProcessCallbackInterface getCtrlCB() {
         return this.ctrlCB;
     }
-
 
 
     @Override
